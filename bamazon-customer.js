@@ -1,6 +1,7 @@
 var mysql = require('mysql');
 var inquirer = require('inquirer');
 
+// setting the variables for our connection
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -9,12 +10,14 @@ var connection = mysql.createConnection({
     database: 'bamazon'
 });
 
+// let's get connected
 connection.connect(function (err) {
     if (err) {
         console.error('error connecting: ' + err.stack);
         return;
     }
     console.log('connected as id ' + connection.threadId);
+    // wait until we're connected to start shopping
     shopNow();
 });
 
@@ -38,10 +41,10 @@ var shopNow = function () {
         // let's find our item
         connection.query('SELECT * FROM products WHERE  item_id = ?', answers.item_id, function (error, results, fields) {
             if (error) console.log('You broke it! ' + error);
-            var string = JSON.stringify(results)
-            console.log(string);
+
+            // let's turn that raw SQL result into something readable
+            var string = JSON.stringify(results);
             var itemObject = JSON.parse(string);
-            console.log(itemObject[0]);
 
             // check whether it's a valid item
             if (itemObject[0] == undefined) {
@@ -56,23 +59,21 @@ var shopNow = function () {
                 shopAgain();
                 return;
             };
+
+            // this is the SQL query we want to run to remove the items and (obviously) ship them
             var placeOrderSQL = 'UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?'
             connection.query(placeOrderSQL, [parseInt(answers.number), parseInt(answers.item_id)], function(err, result) {
                 if (err) {
                     console.log('CRITICAL FAILURE! ABORT! ABORT! ' + err);
                     return;
                 };
-                console.log("Success! They're on their way.\nThere are " + (results[0].stock_quantity - answers.number) + " " + results[0].product_name + "s remaining in stock.")
+                console.log("Success! They're on their way.\nThere are " + (results[0].stock_quantity - answers.number) + " " + results[0].product_name + "s remaining in stock.");
+                console.log("We have just deducted $" + (answers.number * itemObject[0].price) + ' from your account with our magical handwaving device.');
                 shopAgain();
                 return;
-            })
-
-            // connection.query('');
-            // now let's remove that number of items from inventory (and ship them of course)
-            // shall we continue shopping?
+            });
             return;
         });
-
     });
 };
 
@@ -84,7 +85,6 @@ var shopAgain = function () {
         message: "Would you like to make another purchase?",
         default: false
     }).then(function (response) {
-        console.log(response.shopAgain);
         if (response.shopAgain === false) {
             console.log('Your products are on their way! Goodbye.');
             connection.end();
