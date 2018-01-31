@@ -10,9 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "execsql": "0.0.3",
-    "fs": "0.0.1-security",
     "inquirer": "^5.0.1",
+    "json-to-table": "^4.0.0",
     "mysql": "^2.15.0"
   }
 }

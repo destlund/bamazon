@@ -29,6 +29,33 @@ When finished shopping, simply exit Bamazon by refusing to continue shopping. We
 
 ![](./images/customer-6.png)
 
+## The manager interface:
+Managers need to do four things! Just enter `node bamazon-manager.js` to get started.
+
+![](./images/manager-1.png)
+
+
+### View the entire catalog:
+The first option will print a table(?) of the entire catalog.
+
+![](./images/manager-2.png)
+
+### View the 5 lowest items:
+The second option will list the five items we have least of in our inventory.
+
+![](./images/manager-3.png)
+
+### Order stuff:
+The third option lets you replinish our inventory by entering an item ID and the number to order.
+
+![](./images/manager-4.png)
+
+### Order a new item:
+Just fill in the details to get this item into our database and very real warehouse, ready to sell.
+
+![](./images/manager-5.png)
+
+
 ## The database:
 
 At Bamazon, we pride ourselves on clean data. Feel free to replicate our majestic table using the `make-bamazon.sql` query found in this repository.

@@ -26,7 +26,7 @@ var shopNow = function () {
         {
             type: 'input',
             name: 'item_id',
-            message: "What is the ID of the items you wish to purchase?"
+            message: "What is the ID of the item you wish to purchase?"
         },
         {
             type: 'input',
